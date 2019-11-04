@@ -19,7 +19,7 @@ def solve(l, r, h, parent=None):
     node_info = f'[{l}, {r}]'
     edge = None
     if parent:
-        edge = pydotplus.Edge(parent, node_info)
+        edge = pydotplus.Edge(parent, node_info, color="red")
         graph.add_edge(edge)
 
     h_strokes_l = solve(l, min_idx - 1, fence[min_idx], node_info)
@@ -34,7 +34,8 @@ def solve(l, r, h, parent=None):
             edge = pydotplus.Edge(
                 node_info,
                 parent,
-                label=f'vertical = {v_strokes}',
+                label=f'+{v_strokes} vertical',
+                color="green",
                 labelfontcolor='green'
             )
             graph.add_edge(edge)
@@ -44,10 +45,13 @@ def solve(l, r, h, parent=None):
         edge = pydotplus.Edge(
             node_info,
             parent,
-            label=f'horizontal = {h_strokes}',
+            label=f'+{h_strokes} horizontal',
+            color="green",
             labelfontcolor='green'
         )
         graph.add_edge(edge)
+
+    graph.obj_dict['attributes']['label'] = f"Mínimo de Movimentos: {h_strokes}"
     return h_strokes
 
 print('Mínimo de movimentos:', solve(1, n, 0))
